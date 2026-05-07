@@ -27,8 +27,8 @@
    - Testes de API
 
 ## Ferramentas Utilizadas
-   - Postman
-   - Google Chrome
+   - Insomnia
+   - Google Docs
    - Trello
 
 ## Cronograma
