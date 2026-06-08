@@ -26,7 +26,8 @@
    - Insomnia
    - Google Docs
    - Trello
-   - Testrails
+   - Testrail
+   - VsCode 
 
  ##  Ambiente de testes
  - Edge, chrome (desktop)
@@ -90,7 +91,7 @@
    - Identificação de falhas.
      
   Sprint 4 - Ajustes e Finalização
-  Duração: 29/05/2026 a 04/06/2026
+  Duração: 29/05/2026 a 11/06/26
   Foco:
    - Retestes (se necessário);
    - Ajustes finais na documentação;
