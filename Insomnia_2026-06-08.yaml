@@ -1,0 +1,1283 @@
+type: collection.insomnia.rest/5.0
+name: ParaBank
+meta:
+  id: wrk_58c5d84a282244e88cc4307e7aa9f1a2
+  created: 1780368985868
+  modified: 1780368985868
+collection:
+  - name: Loan (Solicitar Empréstimo)
+    meta:
+      id: fld_3bced2e40e1d416f97c99daab4819fe8
+      created: 1777294424122
+      modified: 1780716680510
+      sortKey: -1777294424122
+    children:
+      - url: "{{ _.envParabank }}/requestLoan"
+        name: Solicitar Empréstimo
+        meta:
+          id: req_6da184c1155640d3b65cb09d5f1bbf26
+          created: 1777293871991
+          modified: 1777489998581
+          isPrivate: false
+          sortKey: -1777294432901
+        method: POST
+        parameters:
+          - name: customerId
+            value: "121569"
+            disabled: false
+          - name: amount
+            value: "1000"
+            disabled: false
+          - name: downPayment
+            value: "200"
+            disabled: false
+          - name: fromAccountId
+            value: "121569"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/requestLoan"
+        name: "F4 CT01: Validar pedido de empréstimo com dados válidos"
+        meta:
+          id: req_26f8bf5ece6b43ab8255defb3566c7aa
+          created: 1780711586306
+          modified: 1780711960849
+          isPrivate: false
+          sortKey: -1766929067574
+        method: POST
+        parameters:
+          - name: customer
+            value: "23090"
+            disabled: false
+            id: pair_455693ca0e7f4825b385f76420f7c94a
+          - name: amount
+            value: "10"
+            disabled: false
+            id: pair_eadd275cedb04143b93096f84076d6cd
+          - name: downPayment
+            value: "1"
+            disabled: false
+            id: pair_35ced09e1e3f44e8a66b20381a248169
+          - name: fromAccountId
+            value: "30882"
+            disabled: false
+            id: pair_b1331239dc694104a19c127296d7775e
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F4 CT01 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(200);
+            });
+
+
+            insomnia.test("F4 CT01 - Resposta do pedido de empréstimo
+            processada", () => {
+
+            	insomnia.expect(textoDoConteudo).to.include('"approved"');
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/requestLoan"
+        name: "F4 CT02: Impedir submissão do formulário de empréstimo com campos em
+          branco"
+        meta:
+          id: req_7f5994905f994fa98df9df4038fcaa67
+          created: 1780716360983
+          modified: 1780716786689
+          isPrivate: false
+          sortKey: -1765633396908.125
+        method: POST
+        parameters:
+          - name: customer
+            value: "23090"
+            disabled: true
+            id: pair_455693ca0e7f4825b385f76420f7c94a
+          - name: amount
+            value: "10"
+            disabled: true
+            id: pair_eadd275cedb04143b93096f84076d6cd
+          - name: downPayment
+            value: "1"
+            disabled: true
+            id: pair_35ced09e1e3f44e8a66b20381a248169
+          - name: fromAccountId
+            value: "30882"
+            disabled: true
+            id: pair_b1331239dc694104a19c127296d7775e
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F4 CT02 - Status Code Deve Ser 400 Bad Request", ()
+            => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(400);
+            });
+
+
+            insomnia.test("F4 CT02 - Mensagem deve indicar parâmetros em falta",
+            () => {
+
+            	insomnia.expect(textoDoConteudo).to.include("null");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/requestLoan"
+        name: "F4 CT03: Validar erro ao preencher apenas parte das informações
+          obrigatórias"
+        meta:
+          id: req_c958a0dca5684d17bb7a3358dc9858df
+          created: 1780716557339
+          modified: 1780716788704
+          isPrivate: false
+          sortKey: -1764985561575.1875
+        method: POST
+        parameters:
+          - name: customer
+            value: "23090"
+            disabled: false
+            id: pair_455693ca0e7f4825b385f76420f7c94a
+          - name: amount
+            value: "10"
+            disabled: true
+            id: pair_eadd275cedb04143b93096f84076d6cd
+          - name: downPayment
+            value: "1"
+            disabled: true
+            id: pair_35ced09e1e3f44e8a66b20381a248169
+          - name: fromAccountId
+            value: "30882"
+            disabled: false
+            id: pair_b1331239dc694104a19c127296d7775e
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F4 CT02 - Status Code Deve Ser 400 Bad Request", ()
+            => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(400);
+            });
+
+
+            insomnia.test("F4 CT02 - Mensagem deve indicar parâmetros em falta",
+            () => {
+
+            	insomnia.expect(textoDoConteudo).to.include("null");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/requestLoan"
+        name: "F4 CT04: Verificar exibição de detalhes e status do resultado do
+          empréstimo"
+        meta:
+          id: req_ed394cfdb0344b28b252d3bff0c4f5d7
+          created: 1780716645712
+          modified: 1780716676179
+          isPrivate: false
+          sortKey: -1764337726242.25
+        method: POST
+        parameters:
+          - name: customer
+            value: "23090"
+            disabled: false
+            id: pair_455693ca0e7f4825b385f76420f7c94a
+          - name: amount
+            value: "10"
+            disabled: false
+            id: pair_eadd275cedb04143b93096f84076d6cd
+          - name: downPayment
+            value: "1"
+            disabled: false
+            id: pair_35ced09e1e3f44e8a66b20381a248169
+          - name: fromAccountId
+            value: "30882"
+            disabled: false
+            id: pair_b1331239dc694104a19c127296d7775e
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F4 CT04 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(200);
+            });
+
+
+            insomnia.test("F4 CT04 - Deve exibir detalhes, provedor e status do
+            empréstimo", () => {
+                insomnia.expect(textoDoConteudo).to.include("loanProviderName");
+                insomnia.expect(textoDoConteudo).to.include("responseDate");
+                insomnia.expect(textoDoConteudo).to.include("approved");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Open Account (Abrir conta)
+    meta:
+      id: fld_3e86b655ae224ea1bf0c8ca76b206422
+      created: 1777294450066
+      modified: 1780708684066
+      sortKey: -1777294848307.5
+    children:
+      - url: "{{ _.envParabank }}/createAccount"
+        name: Abrir conta
+        meta:
+          id: req_fb9dc06ae92b4961a54926939fa0cf30
+          created: 1775041007199
+          modified: 1777489982802
+          isPrivate: false
+          sortKey: -1777294457845
+        method: POST
+        parameters:
+          - name: customerId
+            value: "119882"
+            disabled: false
+          - name: newAccountType
+            value: "1"
+            disabled: false
+          - name: fromAccountId
+            value: "121125"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.4.0
+          - name: Accept
+            value: application/json
+        scripts:
+          afterResponse: >
+            const body = JSON.parse(insomnia.response.body)
+
+
+            insomnia.environment.set("accountId", body.id);
+
+
+            //Testes
+
+            insomnia.test("Verificar status code", () => {
+            	insomnia.expect(insomnia.response.code).to.equal(200);
+            });
+
+
+            insomnia.test("Verificar retorno de id", () =>{
+            	insomnia.expect(body).to.have.property("id");
+            })
+
+
+            insomnia.test("Verificar retorno do tipo de conta", () =>{
+            	insomnia.expect(body.type).to.equal(insomnia.request.url.urlObject.searchParams.values());
+            })
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/createAccount"
+        name: "F2 CT01: Iniciar abertura de nova conta"
+        meta:
+          id: req_3072b6a5c78148b7a718a79cd595e9b6
+          created: 1780706492841
+          modified: 1780709230466
+          isPrivate: false
+          sortKey: -1780706493041
+        method: POST
+        parameters:
+          - id: pair_a329476633784b46bc8c0afbb1ebc1cd
+            name: customerId
+            value: "23090"
+            disabled: false
+          - id: pair_19f605a6fefb4c889e758bb98f326355
+            name: newAccountType
+            value: "0"
+            disabled: false
+          - id: pair_a94189d66cd542ffb32b370ee56593f2
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            insomnia.test("F2 CT01 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F2 CT01 - Deve retornar os dados da nova conta", ()
+            => {
+                const textoDoConteudo = insomnia.response.body;
+                insomnia.expect(textoDoConteudo).to.include("<account>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/createAccount"
+        name: "F2 CT02: Definir tipo de conta e conta de origem"
+        meta:
+          id: req_33b90ea8d5ea4242a8f2a36ccdaf7489
+          created: 1780707750015
+          modified: 1780709234641
+          isPrivate: false
+          sortKey: -1780706492991
+        method: POST
+        parameters:
+          - id: pair_a329476633784b46bc8c0afbb1ebc1cd
+            name: customerId
+            value: "23090"
+            disabled: false
+          - id: pair_19f605a6fefb4c889e758bb98f326355
+            name: newAccountType
+            value: "0"
+            disabled: false
+          - id: pair_a94189d66cd542ffb32b370ee56593f2
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F2 CT02 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F2 CT02 - Deve conter a tag account e o id do
+            cliente", () => {
+                insomnia.expect(textoDoConteudo).to.include("<account>");
+                insomnia.expect(textoDoConteudo).to.include("<customerId>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/createAccount"
+        name: "F2 CT03: Comunica resultado abertura Checking Sucesso"
+        meta:
+          id: req_f7bc7164c5b5427b993323cac057203c
+          created: 1780707983226
+          modified: 1780709236769
+          isPrivate: false
+          sortKey: -1780706492966
+        method: POST
+        parameters:
+          - id: pair_a329476633784b46bc8c0afbb1ebc1cd
+            name: customerId
+            value: "23090"
+            disabled: false
+          - id: pair_19f605a6fefb4c889e758bb98f326355
+            name: newAccountType
+            value: "0"
+            disabled: false
+          - id: pair_a94189d66cd542ffb32b370ee56593f2
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F2 CT03 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F2 CT03 - Deve comunicar o resultado como tipo
+            CHECKING", () => {
+                insomnia.expect(textoDoConteudo).to.include("<type>CHECKING</type>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/createAccount"
+        name: "F2 CT04: Abertura de conta tipo Poupança Sucesso"
+        meta:
+          id: req_d1fb5d61a23f412c8c0872543ec01ae7
+          created: 1780708363854
+          modified: 1780709238873
+          isPrivate: false
+          sortKey: -1780706492953.5
+        method: POST
+        parameters:
+          - id: pair_a329476633784b46bc8c0afbb1ebc1cd
+            name: customerId
+            value: "23090"
+            disabled: false
+          - id: pair_19f605a6fefb4c889e758bb98f326355
+            name: newAccountType
+            value: "1"
+            disabled: false
+          - id: pair_a94189d66cd542ffb32b370ee56593f2
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F2 CT03 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F2 CT03 - Deve comunicar o resultado como tipo
+            CHECKING", () => {
+                insomnia.expect(textoDoConteudo).to.include("<type>SAVINGS</type>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/customers/23090/accounts"
+        name: "F2 CT05: Validar listagem imediata no Accounts Overview"
+        meta:
+          id: req_9c74dc15a49d47269f342e86c9fe64a3
+          created: 1780708516678
+          modified: 1780708669772
+          isPrivate: false
+          sortKey: -1780706492941
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F2 CT05 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F2 CT05 - Deve listar as contas criadas (Checking e
+            Savings)", () => {
+
+                insomnia.expect(textoDoConteudo).to.include("<type>CHECKING</type>");
+                insomnia.expect(textoDoConteudo).to.include("<type>SAVINGS</type>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Transfer Funds (Transferir fundos)
+    meta:
+      id: fld_5a4014bbb06d4eef9658a5037d07ee3f
+      created: 1777294626740
+      modified: 1780711493501
+      sortKey: -1777294626740
+    children:
+      - url: "{{ _.envParabank }}/transfer"
+        name: Transferir Fundos
+        meta:
+          id: req_e5f72ce3f1df41e4bb7999f4ef6dfae4
+          created: 1777294632097
+          modified: 1777489774723
+          isPrivate: false
+          sortKey: -1777294635041
+        method: POST
+        parameters:
+          - name: fromAccountId
+            value: "121569"
+            disabled: false
+          - name: toAccountId
+            value: "313213"
+            disabled: false
+          - name: amount
+            value: "100"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/transfer"
+        name: "F3 CT01: Validar carregamento correto e exibição elementos tela Transfer
+          Funds"
+        meta:
+          id: req_e692bc9b917e4fdbb5d54e6aca0fd00f
+          created: 1780709450788
+          modified: 1780710501819
+          isPrivate: false
+          sortKey: -1777294546443
+        method: POST
+        parameters:
+          - id: pair_06c180742f8d48399efc45a63f88ff8f
+            name: fromAccountId
+            value: "30882"
+            disabled: true
+          - id: pair_d1f720a3846445c18a2ad8cf102d8b99
+            name: toAccountId
+            value: "34989"
+            disabled: true
+          - id: pair_35c8003b5aff459e95edcaf7a5743009
+            name: amount
+            value: "10"
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            insomnia.test("F3 CT01 - Servidor respondeu à rota de
+            transferência", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.be.below(500);
+            });
+
+
+            insomnia.test("F3 CT01 - Sistema barrou o envio sem dados
+            obrigatórios", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(400);
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/transfer"
+        name: "F3 CT02: Comunica o resultado da tentativa de transferência ao usuário"
+        meta:
+          id: req_bd03c344b47446e5b433c0d8243fc0bd
+          created: 1780710085926
+          modified: 1780710122210
+          isPrivate: false
+          sortKey: -1777294502144
+        method: POST
+        parameters:
+          - id: pair_06c180742f8d48399efc45a63f88ff8f
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+          - id: pair_d1f720a3846445c18a2ad8cf102d8b99
+            name: toAccountId
+            value: "34989"
+            disabled: false
+          - id: pair_35c8003b5aff459e95edcaf7a5743009
+            name: amount
+            value: "10"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F3 CT02 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("F3 CT02 - Deve exibir texto de confirmação da
+            transferência", () => {
+            	
+                insomnia.expect(textoDoConteudo.toLowerCase()).to.include("successfully");
+                insomnia.expect(textoDoConteudo.toLowerCase()).to.include("transferred");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/customers/23090/accounts"
+        name: "F3 CT03: Validar que os seletores de origem e destino carregam as contas
+          ativas do usuário"
+        meta:
+          id: req_aa29a1175a59412fb5c15622b5d5cce9
+          created: 1780710651123
+          modified: 1780710864402
+          isPrivate: false
+          sortKey: -1777294496606.625
+        method: GET
+        parameters:
+          - id: pair_06c180742f8d48399efc45a63f88ff8f
+            name: fromAccountId
+            value: "30882"
+            disabled: true
+          - id: pair_d1f720a3846445c18a2ad8cf102d8b99
+            name: toAccountId
+            value: "34989"
+            disabled: true
+          - id: pair_35c8003b5aff459e95edcaf7a5743009
+            name: amount
+            value: "10"
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F3 CT03 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(200);
+            });
+
+
+            insomnia.test("F3 CT03 - Seletores devem carregar as contas ativas",
+            () => {
+
+                insomnia.expect(textoDoConteudo).to.include("<id>30882</id>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/transfer"
+        name: "F3 CT04: Manter o contexto de navegação do sistema após a operação"
+        meta:
+          id: req_1f299e3e427147549c2f333fae4fb08f
+          created: 1780710854608
+          modified: 1780710883202
+          isPrivate: false
+          sortKey: -1777294491069.25
+        method: POST
+        parameters:
+          - id: pair_06c180742f8d48399efc45a63f88ff8f
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+          - id: pair_d1f720a3846445c18a2ad8cf102d8b99
+            name: toAccountId
+            value: "34989"
+            disabled: false
+          - id: pair_35c8003b5aff459e95edcaf7a5743009
+            name: amount
+            value: "10"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F3 CT04 - Resposta da operação recebida com sucesso
+            (200 OK)", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(200);
+            });
+
+
+            insomnia.test("F3 CT04 - Contexto de sessão e comunicação mantidos
+            integrados", () => {
+              
+                insomnia.expect(textoDoConteudo.toLowerCase()).to.include("successfully");
+                insomnia.expect(insomnia.response.headers).to.not.be.null;
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/transfer"
+        name: "F3 CT05: Transferência entre Contas do Mesmo Usuário"
+        meta:
+          id: req_8110ee54434e497ba91d0b6c3ddf7488
+          created: 1780711426053
+          modified: 1780711489038
+          isPrivate: false
+          sortKey: -1777294474457.125
+        method: POST
+        parameters:
+          - id: pair_06c180742f8d48399efc45a63f88ff8f
+            name: fromAccountId
+            value: "30882"
+            disabled: false
+          - id: pair_d1f720a3846445c18a2ad8cf102d8b99
+            name: toAccountId
+            value: "34989"
+            disabled: false
+          - id: pair_35c8003b5aff459e95edcaf7a5743009
+            name: amount
+            value: "25"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            const textoDoConteudo = insomnia.response.body;
+
+
+            insomnia.test("F3 CT05 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.code;
+                insomnia.expect(status).to.equal(200);
+            });
+
+
+            insomnia.test("F3 CT05 - Deve confirmar a transferência entre as
+            contas corretas", () => {
+                
+                insomnia.expect(textoDoConteudo.toLowerCase()).to.include("successfully");
+                insomnia.expect(textoDoConteudo.toLowerCase()).to.include("transferred");
+                
+                insomnia.expect(textoDoConteudo).to.include("30882");
+                insomnia.expect(textoDoConteudo).to.include("34989");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Accounts Overview (Visão Geral da Conta)
+    meta:
+      id: fld_310b103f21ac4dd5aefb6ec38a3316ed
+      created: 1777295069875
+      modified: 1780706463626
+      sortKey: -1777295069875
+    children:
+      - url: "{{ _.envParabank }}/accounts/{{ _.accountId }}"
+        name: Visualizar uma conta
+        meta:
+          id: req_5e70d9cda47c4cc9a3a44975fc2391df
+          created: 1775040135746
+          modified: 1780703773447
+          isPrivate: false
+          sortKey: -1777297819262
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/customers/{{ _.customerId }}/accounts"
+        name: Listar contas de um usuário
+        meta:
+          id: req_1e8821c83cf3435b8975ee878f4377a8
+          created: 1777295142272
+          modified: 1777491298519
+          isPrivate: false
+          sortKey: -1777297819212
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/{{ _.accountId }}/transactions"
+        name: Listar transações de uma conta
+        meta:
+          id: req_7370c4d484284e94945136d7c549d1ca
+          created: 1777295925540
+          modified: 1777489622629
+          isPrivate: false
+          sortKey: -1777297819187
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/{{ _.accountId }}/transactions/month/{{
+          _.month }}/type/{{ _.typeTransaction }}"
+        name: Buscar transações por mês e tipo
+        meta:
+          id: req_6912ae70b549456e89846a83beaf39ac
+          created: 1777296552539
+          modified: 1777490265211
+          isPrivate: false
+          sortKey: -1777296552539
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/{{ _.accountId }}/transactions/fromDate/{{
+          _.fromDate }}/toDate/{{ _.toDate }}"
+        name: Buscar transações por intervalo de datas
+        meta:
+          id: req_fd97c686706d444faa550c71c3f068e3
+          created: 1777297225191
+          modified: 1777301611525
+          isPrivate: false
+          sortKey: -1777296552639
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/{{ _.accountId }}/transactions/onDate/{{
+          _.onDate }}"
+        name: Buscar transação em data específica
+        meta:
+          id: req_57071f05965049e6b5f09b427af0a0d9
+          created: 1777297819162
+          modified: 1777301603750
+          isPrivate: false
+          sortKey: -1777297819162
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.5.0
+          - name: Accept
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/customers/23090/accounts"
+        name: "F1 CT01: Visualizar todas as contas"
+        meta:
+          id: req_e1c9d2f108e54e25b43086b4fff58dac
+          created: 1780703587648
+          modified: 1780704492255
+          isPrivate: false
+          sortKey: -1780703587648
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/30882"
+        name: "F1 CT02: Identificar cada conta de forma única"
+        meta:
+          id: req_4018db5850714310b861066cecdb5a0d
+          created: 1780705015418
+          modified: 1780709248190
+          isPrivate: false
+          sortKey: -1780277866599.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/30882"
+        name: "F1 CT03: Vizualizar conta do usuário"
+        meta:
+          id: req_c734de1b13534253ad4d6f56a4710575
+          created: 1780705638149
+          modified: 1780709250956
+          isPrivate: false
+          sortKey: -1780065006075.625
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            insomnia.test("CT03 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("CT03 - Deve Retornar O Saldo Da Conta (Balance)", ()
+            => {
+                const textoDoConteudo = insomnia.response.body;
+                insomnia.expect(textoDoConteudo).to.include("<balance>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/customers/23090/accounts"
+        name: "F1 CT04: Visão consolidada da posição financeira"
+        meta:
+          id: req_e06bcec8f51b49e58ccecdacc1265517
+          created: 1780706123939
+          modified: 1780706173926
+          isPrivate: false
+          sortKey: -1779852145551.5
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            insomnia.test("CT04 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("CT04 - Deve exibir a lista de contas com saldos", ()
+            => {
+                const textoDoConteudo = insomnia.response.body;
+               
+                insomnia.expect(textoDoConteudo).to.include("<id>");
+                insomnia.expect(textoDoConteudo).to.include("<balance>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.envParabank }}/accounts/30993"
+        name: "F1 CT05: Detalhes de uma conta selecionada"
+        meta:
+          id: req_974b27c513324aaf87df49e0a1a71d17
+          created: 1780706369408
+          modified: 1780706460323
+          isPrivate: false
+          sortKey: -1778574982406.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: basic
+          useISO88591: false
+          disabled: false
+          username: arthur
+          password: senha123
+        scripts:
+          afterResponse: >-
+            insomnia.test("CT05 - Status Code Deve Ser 200 OK", () => {
+                const status = insomnia.response.status;
+                insomnia.expect(status.toString()).to.include("OK");
+            });
+
+
+            insomnia.test("CT05 - Deve exibir os detalhes (id e type) da conta",
+            () => {
+                const textoDoConteudo = insomnia.response.body;
+                insomnia.expect(textoDoConteudo).to.include("<id>");
+                insomnia.expect(textoDoConteudo).to.include("<type>");
+            });
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2e3bed720f95451fb0259c9a535efb8c
+    created: 1775039757693
+    modified: 1780716680505
+  cookies:
+    - id: 96497239-95ea-4bbe-8336-a0c8ebaf483f
+      key: JSESSIONID
+      value: 69AA4CC20CCB54BE50844BA66EB8B399
+      domain: parabank.parasoft.com
+      path: /parabank
+      secure: false
+      httpOnly: true
+      hostOnly: true
+environments:
+  name: Base Environment
+  meta:
+    id: env_ac4d2cc52c8d4bf09c72d53c0c3007ea
+    created: 1775039757689
+    modified: 1780716680508
+    isPrivate: false
+  data:
+    envParabank: https://parabank.parasoft.com/parabank/services/bank
+    customerId: "119882"
+    month: January
+    typeTransaction: Debit
+    fromDate: 2026-04-27
+    toDate: 2026-04-27
+    onDate: 2026-04-27
+    accountId: "13455"
